@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/btn_2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"
+        android:text="你好" />
+
+    <com.example.kevinjing.plan.CustomScrollView
+        android:id="@+id/sv_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:minHeight="200dp">
+
+        <LinearLayout
+            android:id="@+id/ll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_text"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Hello" />
+
+            <TextView
+                android:id="@+id/tv_text1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Hello" />
+
+            <TextView
+                android:id="@+id/tv_text2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Hello" />
+
+            <TextView
+                android:id="@+id/tv_text3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="OOOOO" />
+
+            <TextView
+                android:id="@+id/tv_text4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="OOOOO" />
+
+            <TextView
+                android:id="@+id/tv_text5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="OOOOO" />
+
+
+        </LinearLayout>
+    </com.example.kevinjing.plan.CustomScrollView>
+</RelativeLayout>

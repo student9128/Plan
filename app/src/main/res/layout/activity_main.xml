@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            app:layout_constraintBottom_toBottomOf="@id/btn_change"
+            app:layout_constraintLeft_toRightOf="@id/btn_change"
+            app:layout_constraintTop_toTopOf="@id/btn_change" />
+
+        <Button
+            android:id="@+id/btn_kotlin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Kotlin"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@id/btn_change"
+            app:layout_constraintLeft_toRightOf="@id/tv_text"
+            app:layout_constraintTop_toTopOf="@id/btn_change" />
+    </android.support.constraint.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_animation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="动画" />
+
+            <Button
+                android:id="@+id/btn_constraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ConstrainLayout"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_constraint_set"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ConstrainSet"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_event_bus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EventBus"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_pm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PermissionManager"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_dd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DD" />
+
+            <Button
+                android:id="@+id/btn_dispatch_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DispatchEvent"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_sys_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="System Info"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_custom_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CustomView"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
