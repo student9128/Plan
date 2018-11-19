@@ -11,4 +11,11 @@
         android:text="调用权限"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btn_request_install"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="request install package"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/btn_request_pm"/>
 </android.support.constraint.ConstraintLayout>

@@ -2,10 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kevinjing.plan">
     <!--危险权限-->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <!--一般权限-->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,18 +24,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnimationActivity"/>
-        <activity android:name=".ConstrainLayoutActivity"/>
-        <activity android:name=".ConstraintSetActivity"/>
-        <activity android:name=".EventBusActivity"/>
-        <activity android:name=".PermissionManagerActivity"/>
-        <activity android:name=".PermissionsActivity"/>
-        <activity android:name=".DDActivity"/>
-        <activity android:name=".DispatchEventActivity"/>
-        <activity android:name=".SystemInfoActivity"/>
-        <activity android:name=".CustomViewActivity"/>
-        <activity android:name=".kotlin.KotlinActivity"/>
-        <activity android:name=".kotlin.CustomViewActivity"/>
+        <activity android:name=".AnimationActivity" />
+        <activity android:name=".ConstrainLayoutActivity" />
+        <activity android:name=".ConstraintSetActivity" />
+        <activity android:name=".EventBusActivity" />
+        <activity android:name=".PermissionManagerActivity" />
+        <activity android:name=".PermissionsActivity" />
+        <activity android:name=".DDActivity" />
+        <activity android:name=".DispatchEventActivity" />
+        <activity android:name=".SystemInfoActivity" />
+        <activity android:name=".CustomViewActivity" />
+        <activity android:name=".kotlin.KotlinActivity" />
+        <activity android:name=".kotlin.CustomViewActivity" />
+        <activity android:name=".frame.WindowManagerActivity" />
+        <activity android:name=".frame.ActivityManagerActivity" />
+        <activity android:name=".frame.ApkActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.kevinjing.plan.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

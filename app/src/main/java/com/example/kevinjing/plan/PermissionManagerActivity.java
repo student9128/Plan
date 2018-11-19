@@ -27,13 +27,20 @@ public class PermissionManagerActivity extends AppCompatActivity implements View
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.MODIFY_AUDIO_SETTINGS
     };
+    static final String[] p = new String[]{
+            Manifest.permission.REQUEST_INSTALL_PACKAGES
+    };
+    @BindView(R.id.btn_request_install)
+    Button btnRequestInstall;
     private PermissionsChecker mPermissionsChecker; // 权限检测器
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pm);
         ButterKnife.bind(this);
         btnRequestPm.setOnClickListener(this);
+        btnRequestInstall.setOnClickListener(this);
 
     }
 
@@ -45,13 +52,20 @@ public class PermissionManagerActivity extends AppCompatActivity implements View
                 startPermissionsActivity();
             }
         }
+        if (v.getId() == R.id.btn_request_install) {
+            mPermissionsChecker = new PermissionsChecker(this);
+            if(mPermissionsChecker.lacksPermissions(p)){
+                startPermissionsActivity();
+            }
+        }
     }
 
     private void startPermissionsActivity() {
-        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, p);
     }
 
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
         if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {

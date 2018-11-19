@@ -108,6 +108,36 @@
                 android:layout_height="wrap_content"
                 android:text="CustomView"
                 android:textAllCaps="false" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_windowManager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Window Manager"
+                    android:textAllCaps="false"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_activityManager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Activity Manager"
+                    app:layout_constraintLeft_toRightOf="@id/btn_windowManager"
+                    app:layout_constraintTop_toTopOf="@id/btn_windowManager" />
+
+                <Button
+                    android:id="@+id/btn_install_apk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Install Apk"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_windowManager" />
+            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 

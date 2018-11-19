@@ -12,6 +12,16 @@
     <declare-styleable name="TestView">
         <attr name="testBackgroundColor" format="color" />
     </declare-styleable>
+    <declare-styleable name="ProgressView">
+        <attr name="progressColor" format="color|reference" />
+        <attr name="progressBackgroundColor" format="color|reference" />
+        <attr name="totalProgress" format="integer" />
+        <attr name="progressTextSize" format="dimension"/>
+        <attr name="clockWise" format="boolean"/>
+        <attr name="progressWidth" format="dimension"/>
+    </declare-styleable>
+
+
     <declare-styleable name="PrettyImageView">
         <attr name="shape_type">
             <enum name="SHAPE_CIRCLE" value="0"></enum>
