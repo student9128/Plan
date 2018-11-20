@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
@@ -47,6 +48,7 @@ public class ProgressBarView extends View {
     private int paddingBottom;
     private int defaultPadding;
     private int defaultTextMarginLeft;//进度百分百距离进度条的距离
+    private int defaultTextMarginTop;//进度百分百距离进度条的距离
     private int mTextPosition;
     private static final int RIGHT = 0;
     private static final int INTER = 1;
@@ -68,8 +70,15 @@ public class ProgressBarView extends View {
             mColor = typedArray.getColor(R.styleable.ProgressBarView_progressBarColor, 0xff2f89fc);
             totalProgress = typedArray.getInt(R.styleable.ProgressBarView_progressBarTotalProgress, 100);
             mProgress = typedArray.getInt(R.styleable.ProgressBarView_progressBarProgress, 0);
-            textSize = typedArray.getDimensionPixelSize(R.styleable.ProgressBarView_progressBarTextSize, DisplayUtils.sp2px(getContext(), 14));
             mTextPosition = typedArray.getInt(R.styleable.ProgressBarView_position, RIGHT);
+            if (mTextPosition == TOP) {
+
+                textSize = typedArray.getDimensionPixelSize(R.styleable.ProgressBarView_progressBarTextSize, DisplayUtils.sp2px(getContext(), 12));
+            } else {
+
+                textSize = typedArray.getDimensionPixelSize(R.styleable.ProgressBarView_progressBarTextSize, DisplayUtils.sp2px(getContext(), 14));
+            }
+
         }
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -82,8 +91,13 @@ public class ProgressBarView extends View {
         int screenHeight = dm.heightPixels;       // 屏幕高度（像素）
         defaultPadding = DisplayUtils.dp2px(getContext(), 5);
         mDefaultWidth = screenWidth * 3 / 4;//默认2/3屏幕
-        mDefaultHeight = DisplayUtils.dip2px(getContext(), 20);
+        if (mTextPosition == TOP) {
+            mDefaultHeight = DisplayUtils.dip2px(getContext(), 40);
+        } else {
+            mDefaultHeight = DisplayUtils.dip2px(getContext(), 20);
+        }
         defaultTextMarginLeft = DisplayUtils.dp2px(getContext(), 5);
+        defaultTextMarginTop = DisplayUtils.dp2px(getContext(), 1);
 
         mR = DisplayUtils.dp2px(getContext(), 3);
 
@@ -100,7 +114,12 @@ public class ProgressBarView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = measureWidth(widthMeasureSpec);
-        int height = measureHeight(heightMeasureSpec);
+        int height = 0;
+        try {
+            height = measureHeight(heightMeasureSpec);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         setMeasuredDimension(width, height);
     }
 
@@ -122,7 +141,7 @@ public class ProgressBarView extends View {
         return result;
     }
 
-    private int measureHeight(int measureSpec) {
+    private int measureHeight(int measureSpec) throws Exception {
         int result = mDefaultHeight;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -134,6 +153,9 @@ public class ProgressBarView extends View {
                 result = Math.min(result, specSize);
                 break;
             case MeasureSpec.EXACTLY:
+                if (mTextPosition == TOP && specSize < mDefaultHeight) {
+                    throw new Exception("The progressbar's height is too small to show");
+                }
                 result = specSize;
                 break;
         }
@@ -187,35 +209,117 @@ public class ProgressBarView extends View {
         int boundTop = bound.top;
         int boundRight = bound.right;
         int boundBottom = bound.bottom;
-        int progressBarTotalWidth = getWidth() - paddingLeft - paddingRight;
+        int progressBarTotalWidth = mRight - mLeft;
+
 
         switch (mTextPosition) {
             case RIGHT:
                 drawRightProgress(canvas, bound, x, boundTop, boundBottom, progressBarTotalWidth);
                 break;
             case INTER:
-                canvas.save();
-                int progressBarWidth = progressBarTotalWidth;
-                int centerY = (mTop + mBottom) / 2;
-                float textLeft = mLeft + (progress / (totalProgress * 2) + 1 / 4) * progressBarWidth;
-                RectF rectF = new RectF(mLeft, mTop, progress / totalProgress * progressBarWidth, mBottom);
-                RectF rectB = new RectF(mLeft, mTop, mLeft + progressBarWidth, mBottom);
-                RectF rectT = new RectF(textLeft-5, mTop, textLeft + bound.width()+5, mBottom);
-                canvas.translate(-mLeft + paddingLeft, -mTop + paddingTop);
-                canvas.drawRoundRect(rectB, mR, mR, mBackgroundPaint);
-                canvas.drawRoundRect(rectF, mR, mR, mPaint);
-//                canvas.drawText(x, mLeft + progress / totalProgress * progressBarWidth * 1 / 2+1/4*progressBarWidth, centerY - (boundTop + boundBottom) / 2, mPaint);
-                mPaint.setColor(Color.WHITE);
-                canvas.drawRect(rectT, mPaint);
-                mPaint.setColor(mColor);
-                canvas.drawText(x, textLeft, centerY - (boundTop + boundBottom) / 2, mPaint);
-                canvas.restore();
+                drawInterProgress(canvas, bound, x, boundTop, boundBottom, progressBarTotalWidth);
                 break;
             case TOP:
+                drawTopProgress(canvas, progressBarTotalWidth);
                 break;
         }
 
 
+    }
+
+    /**
+     * 进度百分比在进度条上方
+     *
+     * @param canvas
+     * @param progressBarTotalWidth
+     */
+    private void drawTopProgress(Canvas canvas, int progressBarTotalWidth) {
+        int progressBarWidth = progressBarTotalWidth;
+        Rect textBound = new Rect();
+        Rect text = new Rect();
+        String xx = String.valueOf((int) progress);
+        String totalX = String.valueOf(totalProgress);
+        mPaint.setTextSize(textSize);
+        mPaint.getTextBounds(totalX, 0, totalX.length(), textBound);
+        mPaint.getTextBounds(xx, 0, xx.length(), text);
+        int lineWidth = textBound.width() + DisplayUtils.dip2px(getContext(), 2);
+        float percent = progress / totalProgress;
+        float progressBarTop = (float) (mTop + textBound.height() * 2.5 + defaultTextMarginTop);
+        float progressBarRight = mLeft + percent * progressBarWidth;
+        RectF rectF = new RectF(mLeft, progressBarTop, progressBarRight, mBottom);
+        RectF rectB = new RectF(mLeft, progressBarTop, mLeft + progressBarWidth, mBottom);
+
+        float cursor = mLeft;//游标左侧
+        if (progressBarRight < cursor + lineWidth / 2) {
+            cursor = mLeft;
+        } else {
+            cursor = progressBarRight - lineWidth / 2;
+            if (cursor + lineWidth >= mRight) {
+                cursor = mRight - lineWidth;
+            }
+        }
+        float cursorRectHeight = (float) (textBound.height() * 1.5);
+        Path path = new Path();
+        path.moveTo(cursor + lineWidth / 2, mTop);
+        path.rLineTo(lineWidth / 2, 0);
+        path.rLineTo(0, cursorRectHeight);
+        path.rLineTo(-lineWidth / 2, textBound.height());
+        path.rLineTo(-lineWidth / 2, -textBound.height());
+        path.rLineTo(0, -cursorRectHeight);
+        path.close();
+
+        float textLeft = cursor + lineWidth / 2 - (text.left + text.right) / 2;
+
+        canvas.save();
+
+        canvas.translate(-mLeft + paddingLeft, -mTop + paddingTop);
+        canvas.drawRoundRect(rectB, mR, mR, mBackgroundPaint);
+        canvas.drawRoundRect(rectF, mR, mR, mPaint);
+        int centerY = mTop + textBound.height() * 3 / 4 - (textBound.top + textBound.bottom) / 2;
+        canvas.drawPath(path, mPaint);
+        mPaint.setColor(Color.WHITE);
+        canvas.drawText(xx, textLeft, centerY, mPaint);
+        canvas.restore();
+    }
+
+    /**
+     * 百分比显示在进度条之间
+     *
+     * @param canvas
+     * @param bound
+     * @param x
+     * @param boundTop
+     * @param boundBottom
+     * @param progressBarTotalWidth
+     */
+    private void drawInterProgress(Canvas canvas, Rect bound, String x, int boundTop, int boundBottom, int progressBarTotalWidth) {
+        canvas.save();
+        int progressBarWidth = progressBarTotalWidth;
+        int centerY = (mTop + mBottom) / 2;
+        float percent = progress / totalProgress;
+//        float textLeft = mLeft + (progress / (totalProgress * 2) + 1 / 4) * progressBarWidth;
+        float progressBarRight = mLeft + percent * progressBarWidth;
+        RectF rectF = new RectF(mLeft, mTop, progressBarRight, mBottom);
+        RectF rectB = new RectF(mLeft, mTop, mLeft + progressBarWidth, mBottom);
+//        RectF rectT = new RectF(textLeft - 5, mTop, textLeft + bound.width() + 5, mBottom);
+        canvas.translate(-mLeft + paddingLeft, -mTop + paddingTop);
+        canvas.drawRoundRect(rectB, mR, mR, mBackgroundPaint);
+        canvas.drawRoundRect(rectF, mR, mR, mPaint);
+//                canvas.drawText(x, mLeft + progress / totalProgress * progressBarWidth * 1 / 2+1/4*progressBarWidth, centerY - (boundTop + boundBottom) / 2, mPaint);
+        mPaint.setColor(Color.WHITE);
+//        canvas.drawRect(rectT, mPaint);
+//        mPaint.setColor(mColor);
+        float textLeft = mLeft;
+        if (mLeft + bound.width() / 2 > progressBarRight * 3 / 4) {
+            textLeft = textLeft;
+        } else {
+            textLeft = progressBarRight * 3 / 4 - (bound.left + bound.right) / 2;
+            if (textLeft + bound.width() / 2 >= (mLeft + progressBarWidth) * 3 / 4) {
+                textLeft = (mLeft + progressBarWidth) * 3 / 4;
+            }
+        }
+        canvas.drawText(x, textLeft, centerY - (boundTop + boundBottom) / 2, mPaint);
+        canvas.restore();
     }
 
     /**

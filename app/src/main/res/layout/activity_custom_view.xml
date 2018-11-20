@@ -165,6 +165,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        app:progressBarTextSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView2"
         app:progressBarColor="@color/colorAccent"
         app:progressBarProgress="65" />
@@ -197,6 +198,37 @@
         app:position="inter"
         app:progressBarColor="#ff0000"
         app:progressBarProgress="20" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView6"
+        app:position="top"
+        app:progressBarProgress="100" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView7"
+        app:position="top"
+        app:progressBarTextSize="10sp"
+        app:progressBarColor="@color/colorAccent"
+        app:progressBarProgress="60" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView9"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView8"
+        app:position="top"
+        app:progressBarTextSize="14sp"
+        app:progressBarColor="#7045af"
+        app:progressBarProgress="30" />
 
 
 </android.support.constraint.ConstraintLayout>
