@@ -231,7 +231,6 @@ public class ToggleView extends View {
 
         Log.i(TAG, "mR\t" + mR);
 
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
         mLeft = left;
         mTop = top;
         mRight = right;

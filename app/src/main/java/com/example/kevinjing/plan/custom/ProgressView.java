@@ -4,18 +4,14 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.TextView;
 
 import com.example.kevinjing.plan.R;
 import com.example.kevinjing.plan.util.DisplayUtils;
@@ -26,7 +22,7 @@ import com.example.kevinjing.plan.util.DisplayUtils;
  * Describe:<br/>
  */
 public class ProgressView extends View {
-    private int totalProgress;
+    private int mProgress;
     private float progress;
     private Paint mPaint;
     private Paint mBackgroundPaint;
@@ -69,8 +65,8 @@ public class ProgressView extends View {
         if (typedArray != null) {
             mBackgroundCircleColor = typedArray.getColor(R.styleable.ProgressView_progressBackgroundColor, 0xaaf0f3f3);
             mColor = typedArray.getColor(R.styleable.ProgressView_progressColor, 0xff2f89fc);
-            totalProgress = typedArray.getInt(R.styleable.ProgressView_totalProgress, 100);
-            textSize = typedArray.getDimensionPixelSize(R.styleable.ProgressView_progressTextSize, DisplayUtils.sp2px(getContext(),14));
+            mProgress = typedArray.getInt(R.styleable.ProgressView_progress, 0);
+            textSize = typedArray.getDimensionPixelSize(R.styleable.ProgressView_progressTextSize, DisplayUtils.sp2px(getContext(), 14));
             clockWise = typedArray.getBoolean(R.styleable.ProgressView_clockWise, false);
             mProgressWith = typedArray.getDimension(R.styleable.ProgressView_progressWidth, DisplayUtils.dip2px(getContext(), 2));
             typedArray.recycle();
@@ -83,7 +79,7 @@ public class ProgressView extends View {
         mDefaultWidth = DisplayUtils.dip2px(getContext(), 60);
         mDefaultHeight = DisplayUtils.dip2px(getContext(), 60);
 
-        animator = ValueAnimator.ofFloat(0, totalProgress);
+        animator = ValueAnimator.ofFloat(0, mProgress);
         startAnimation();
 
     }
@@ -177,7 +173,6 @@ public class ProgressView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(mColor);
         mPaint.setStrokeWidth(mProgressWith);
@@ -192,9 +187,11 @@ public class ProgressView extends View {
         RectF rectF = new RectF(mLeft, mTop, mRight, mBottom);
         Rect bound = new Rect();
         String x = (int) progress + "%";
+        mPaint.setTextSize(textSize);
         mPaint.getTextBounds(x, 0, x.length(), bound);//获取bound后在平移画布，否则不居中
 //translate canvas to (0,0),otherwise (0,0) just relative to the canvas
 // the progressView can not be shown
+        canvas.save();
         canvas.translate(-mLeft + paddingLeft, -mTop + paddingTop);
         canvas.drawCircle(centerX, centerY, mR, mBackgroundPaint);
         if (clockWise) {
@@ -203,14 +200,13 @@ public class ProgressView extends View {
             canvas.drawArc(rectF, 0, 360 * progress / 100, false, mPaint);
         }
         mPaint.setStyle(Paint.Style.FILL);
-//        mPaint.setTextSize(DisplayUtils.sp2px(getContext(), textSize));
-        mPaint.setTextSize(textSize);
         canvas.drawText(x, centerX - (bound.left + bound.right) / 2, centerY - (bound.top + bound.bottom) / 2, mPaint);
-        canvas.translate(mLeft, mTop);
+//        canvas.translate(mLeft - paddingLeft, mTop - paddingTop);
+        canvas.restore();
     }
 
     private void startAnimation() {
-        animator.setDuration(6000)
+        animator.setDuration(5000)
                 .setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -220,8 +216,8 @@ public class ProgressView extends View {
             }
         });
         animator.start();
-        if (progress >= totalProgress) {
-            progress = totalProgress;
+        if (progress >= mProgress) {
+            progress = mProgress;
             cancelAnimation();
         }
     }
@@ -232,12 +228,12 @@ public class ProgressView extends View {
         }
     }
 
-    public int getTotalProgress() {
-        return totalProgress;
+    public int getmProgress() {
+        return mProgress;
     }
 
-    public void setTotalProgress(int totalProgress) {
-        this.totalProgress = totalProgress;
+    public void setmProgress(int mProgress) {
+        this.mProgress = mProgress;
     }
 
     public int getColor() {
@@ -269,7 +265,7 @@ public class ProgressView extends View {
     }
 
     public void setTextSize(int textSize) {
-        this.textSize = DisplayUtils.sp2px(getContext(),textSize);
+        this.textSize = DisplayUtils.sp2px(getContext(), textSize);
     }
 
     public boolean isClockWise() {

@@ -76,11 +76,11 @@
     <!--app:layout_constraintTop_toBottomOf="@id/tv_toggle4" />-->
 
     <!--<com.example.kevinjing.plan.custom.TickView-->
-        <!--android:id="@+id/tick_view"-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="150dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--app:layout_constraintTop_toBottomOf="@id/tv_toggle4" />-->
+    <!--android:id="@+id/tick_view"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="150dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/tv_toggle4" />-->
     <!--<com.example.kevinjing.plan.kotlin.TestView-->
     <!--android:layout_width="200dp"-->
     <!--android:layout_height="200dp"-->
@@ -98,7 +98,8 @@
         app:clockWise="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/pv_progressView2"
-        app:layout_constraintTop_toBottomOf="@id/tv_toggle" />
+        app:layout_constraintTop_toBottomOf="@id/tv_toggle"
+        app:progress="100" />
 
     <com.example.kevinjing.plan.custom.ProgressView
         android:id="@+id/pv_progressView2"
@@ -107,6 +108,7 @@
         android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toRightOf="@id/pv_progressView1"
         app:layout_constraintTop_toTopOf="@id/pv_progressView1"
+        app:progress="78"
         app:progressBackgroundColor="@color/colorAccent"
         app:progressColor="#2d4059" />
 
@@ -115,9 +117,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        app:totalProgress="95"
-        app:layout_constraintTop_toTopOf="@id/pv_progressView1"
         app:layout_constraintLeft_toRightOf="@id/pv_progressView2"
+        app:layout_constraintTop_toTopOf="@id/pv_progressView1"
+        app:progress="95"
         app:progressColor="#FF9900" />
 
     <com.example.kevinjing.plan.custom.ProgressView
@@ -125,20 +127,76 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        app:clockWise="true"
         app:layout_constraintLeft_toRightOf="@id/pv_progressView3"
         app:layout_constraintTop_toTopOf="@id/pv_progressView1"
+        app:progress="80"
         app:progressColor="#6a9c78"
-        app:clockWise="true"
-        app:progressTextSize="20sp"
-        app:totalProgress="80" />
+        app:progressTextSize="20sp" />
+
     <TextView
         android:layout_width="wrap_content"
-        android:textSize="20sp"
+        android:layout_height="wrap_content"
         android:text="100%"
-        app:layout_constraintLeft_toRightOf="@id/pv_progressView4"
-        app:layout_constraintTop_toTopOf="@id/pv_progressView4"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/pv_progressView4"
-        android:layout_height="wrap_content" />
+        app:layout_constraintLeft_toRightOf="@id/pv_progressView4"
+        app:layout_constraintTop_toTopOf="@id/pv_progressView4" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pv_progressView1"
+        app:progressBarProgress="100" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView1"
+        app:progressBarColor="#6a9c78"
+        app:progressBarProgress="90" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView2"
+        app:progressBarColor="@color/colorAccent"
+        app:progressBarProgress="65" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView3"
+        app:position="inter"
+        app:progressBarProgress="100" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView4"
+        app:position="inter"
+        app:progressBarColor="#FF9900"
+        app:progressBarProgress="80" />
+
+    <com.example.kevinjing.plan.custom.ProgressBarView
+        android:id="@+id/pbv_progressBarView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView5"
+        app:position="inter"
+        app:progressBarColor="#ff0000"
+        app:progressBarProgress="20" />
 
 
 </android.support.constraint.ConstraintLayout>
