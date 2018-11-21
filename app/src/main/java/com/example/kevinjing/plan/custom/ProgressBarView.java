@@ -147,7 +147,7 @@ public class ProgressBarView extends View {
         int specSize = MeasureSpec.getSize(measureSpec);
         switch (specMode) {
             case MeasureSpec.UNSPECIFIED:
-                result = specSize;
+                result = Math.min(result, specSize);
                 break;
             case MeasureSpec.AT_MOST:
                 result = Math.min(result, specSize);
@@ -297,18 +297,13 @@ public class ProgressBarView extends View {
         int progressBarWidth = progressBarTotalWidth;
         int centerY = (mTop + mBottom) / 2;
         float percent = progress / totalProgress;
-//        float textLeft = mLeft + (progress / (totalProgress * 2) + 1 / 4) * progressBarWidth;
         float progressBarRight = mLeft + percent * progressBarWidth;
         RectF rectF = new RectF(mLeft, mTop, progressBarRight, mBottom);
         RectF rectB = new RectF(mLeft, mTop, mLeft + progressBarWidth, mBottom);
-//        RectF rectT = new RectF(textLeft - 5, mTop, textLeft + bound.width() + 5, mBottom);
         canvas.translate(-mLeft + paddingLeft, -mTop + paddingTop);
         canvas.drawRoundRect(rectB, mR, mR, mBackgroundPaint);
         canvas.drawRoundRect(rectF, mR, mR, mPaint);
-//                canvas.drawText(x, mLeft + progress / totalProgress * progressBarWidth * 1 / 2+1/4*progressBarWidth, centerY - (boundTop + boundBottom) / 2, mPaint);
         mPaint.setColor(Color.WHITE);
-//        canvas.drawRect(rectT, mPaint);
-//        mPaint.setColor(mColor);
         float textLeft = mLeft;
         if (mLeft + bound.width() / 2 > progressBarRight * 3 / 4) {
             textLeft = textLeft;

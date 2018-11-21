@@ -183,7 +183,7 @@ public class ToggleView extends View {
         int specSize = MeasureSpec.getSize(measureSpec);
         switch (specMode) {
             case MeasureSpec.UNSPECIFIED:
-                result = specSize;
+                result = Math.min(result, specSize);
                 break;
             case MeasureSpec.AT_MOST:
                 result = Math.min(result, specSize);

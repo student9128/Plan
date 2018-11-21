@@ -229,7 +229,7 @@ class ToggleView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         val specMode = MeasureSpec.getMode(measureSpec)
         val specSize = MeasureSpec.getSize(measureSpec)
         when (specMode) {
-            MeasureSpec.UNSPECIFIED -> result = specSize
+            MeasureSpec.UNSPECIFIED ->  Math.min(result, specSize)
             MeasureSpec.AT_MOST -> result = Math.min(result, specSize)
             MeasureSpec.EXACTLY -> result = specSize
         }

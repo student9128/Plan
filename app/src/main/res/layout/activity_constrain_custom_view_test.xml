@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.example.kevinjing.plan.custom.ToggleView
+            android:id="@+id/tv_toggle"
+            android:layout_width="wrap_content"
+            app:checkedColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <com.example.kevinjing.plan.custom.ProgressView
+            android:id="@+id/progressview"
+            android:layout_width="wrap_content"
+            app:progress="60"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_toggle" />
+
+        <com.example.kevinjing.plan.custom.ProgressBarView
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            app:progressBarProgress="90"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/progressview" />
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

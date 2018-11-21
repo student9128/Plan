@@ -39,6 +39,7 @@
         <activity android:name=".frame.WindowManagerActivity" />
         <activity android:name=".frame.ActivityManagerActivity" />
         <activity android:name=".frame.ApkActivity" />
+        <activity android:name=".ConstrainCustomViewTestActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

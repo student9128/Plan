@@ -2,7 +2,6 @@ package com.example.kevinjing.plan;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -69,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnActivityManager;
     @BindView(R.id.btn_install_apk)
     Button btnInstallApk;
+    @BindView(R.id.btn_constraint_custom_test)
+    Button btnConstraintCustomTest;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnWindowManager.setOnClickListener(this);
         btnActivityManager.setOnClickListener(this);
         btnInstallApk.setOnClickListener(this);
+        btnConstraintCustomTest.setOnClickListener(this);
     }
 
     @Override
@@ -156,6 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     installNApk();
                 }
+                break;
+            case R.id.btn_constraint_custom_test:
+                startActivity(new Intent(this,ConstrainCustomViewTestActivity.class));
                 break;
         }
     }
