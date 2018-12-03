@@ -165,10 +165,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:progressBarTextSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView2"
         app:progressBarColor="@color/colorAccent"
-        app:progressBarProgress="65" />
+        app:progressBarProgress="65"
+        app:progressBarTextSize="20sp" />
 
     <com.example.kevinjing.plan.custom.ProgressBarView
         android:id="@+id/pbv_progressBarView4"
@@ -215,9 +215,9 @@
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView7"
         app:position="top"
-        app:progressBarTextSize="10sp"
         app:progressBarColor="@color/colorAccent"
-        app:progressBarProgress="60" />
+        app:progressBarProgress="60"
+        app:progressBarTextSize="10sp" />
 
     <com.example.kevinjing.plan.custom.ProgressBarView
         android:id="@+id/pbv_progressBarView9"
@@ -226,9 +226,16 @@
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView8"
         app:position="top"
-        app:progressBarTextSize="14sp"
         app:progressBarColor="#7045af"
-        app:progressBarProgress="30" />
+        app:progressBarProgress="30"
+        app:progressBarTextSize="14sp" />
+
+    <com.example.kevinjing.plan.custom.RulerView
+        android:id="@+id/rulerView"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/pbv_progressBarView9"
+        android:layout_height="wrap_content" />
 
 
 </android.support.constraint.ConstraintLayout>

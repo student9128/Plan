@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressWaveView">
+        <attr name="waveColor" format="color|reference" />
+        <attr name="backgroundColor" format="color|reference" />
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="color|reference" />
+        <attr name="cProgress" format="integer" />
+        <attr name="totalValue" format="float" />
+        <attr name="currentValue" format="float" />
+    </declare-styleable>
+</resources>

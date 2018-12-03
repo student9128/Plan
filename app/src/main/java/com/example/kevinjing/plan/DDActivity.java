@@ -93,7 +93,7 @@ public class DDActivity extends AppCompatActivity implements View.OnTouchListene
                 int vgWidth = vgRoot.getMeasuredWidth();
 //                Log.w("DDActivity", "vgHeight:=>" + vgHeight);
 //                Log.w("DDActivity", "vgWidth:=>" + vgWidth);
-                scrollView.layout(0, vgHeight - dp2px(DDActivity.this, 150), scrollView.getWidth(),
+                scrollView.layout(0, vgHeight - dp2px(DDActivity.this, 350), scrollView.getWidth(),
                         vgHeight -
                                 anInt +
                                 totalHeight);

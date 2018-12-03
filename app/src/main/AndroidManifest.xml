@@ -40,6 +40,8 @@
         <activity android:name=".frame.ActivityManagerActivity" />
         <activity android:name=".frame.ApkActivity" />
         <activity android:name=".ConstrainCustomViewTestActivity"/>
+        <activity android:name=".BezierTestActivity"/>
+        <activity android:name=".RulerViewActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -137,14 +137,32 @@
                     android:text="Install Apk"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btn_windowManager" />
+
                 <Button
                     android:id="@+id/btn_constraint_custom_test"
-                    app:layout_constraintLeft_toRightOf="@id/btn_install_apk"
-                    app:layout_constraintTop_toTopOf="@id/btn_install_apk"
-                    android:text="Constraint Custom Test"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Constraint Custom Test"
+                    app:layout_constraintLeft_toRightOf="@id/btn_install_apk"
+                    app:layout_constraintTop_toTopOf="@id/btn_install_apk" />
+
+                <Button
+                    android:id="@+id/btn_bezier_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Bezier Test"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_install_apk" />
+                <Button
+                    android:id="@+id/btn_ruler_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@id/btn_bezier_test"
+                    app:layout_constraintTop_toTopOf="@id/btn_bezier_test"
+                    android:layout_marginLeft="10dp"
+                    android:text="Ruler Test"/>
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>

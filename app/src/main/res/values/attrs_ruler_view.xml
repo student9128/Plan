@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RulerView">
+        <attr name="rulerBackgroundColor" format="color|reference" />
+        <attr name="rulerMarkColor" format="color|reference" />
+        <attr name="rulerSuperMarkColor" format="color|reference" />
+        <attr name="rulerTextSize" format="dimension" />
+        <attr name="rulerTextColor" format="color|reference" />
+        <attr name="rulerMinValue" format="integer|float" />
+        <attr name="rulerMaxValue" format="integer|float" />
+        <attr name="rulerMarkUnit" format="integer|float" />
+        <attr name="markPerCount" format="integer" />
+.
+    </declare-styleable>
+</resources>

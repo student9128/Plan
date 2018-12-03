@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnInstallApk;
     @BindView(R.id.btn_constraint_custom_test)
     Button btnConstraintCustomTest;
+    @BindView(R.id.btn_bezier_test)
+    Button btnBezierTest;
+    @BindView(R.id.btn_ruler_test)
+    Button btnRulerTest;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -107,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnActivityManager.setOnClickListener(this);
         btnInstallApk.setOnClickListener(this);
         btnConstraintCustomTest.setOnClickListener(this);
+        btnBezierTest.setOnClickListener(this);
+        btnRulerTest.setOnClickListener(this);
     }
 
     @Override
@@ -160,7 +166,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_constraint_custom_test:
-                startActivity(new Intent(this,ConstrainCustomViewTestActivity.class));
+                startActivity(new Intent(this, ConstrainCustomViewTestActivity.class));
+                break;
+            case R.id.btn_bezier_test:
+                startActivity(new Intent(this, BezierTestActivity.class));
+                break;
+            case R.id.btn_ruler_test:
+                startActivity(new Intent(this,RulerViewActivity.class));
                 break;
         }
     }

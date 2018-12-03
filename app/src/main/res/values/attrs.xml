@@ -33,7 +33,6 @@
         </attr>
     </declare-styleable>
 
-
     <declare-styleable name="PrettyImageView">
         <attr name="shape_type">
             <enum name="SHAPE_CIRCLE" value="0"></enum>
