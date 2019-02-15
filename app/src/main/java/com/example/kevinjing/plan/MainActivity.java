@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -161,8 +162,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, ActivityManagerActivity.class));
                 break;
             case R.id.btn_install_apk:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
                     installNApk();
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    installOApk();
                 }
                 break;
             case R.id.btn_constraint_custom_test:
@@ -172,34 +175,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, BezierTestActivity.class));
                 break;
             case R.id.btn_ruler_test:
-                startActivity(new Intent(this,RulerViewActivity.class));
+                startActivity(new Intent(this, RulerViewActivity.class));
                 break;
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void installOApk() {
+        boolean b = getPackageManager().canRequestPackageInstalls();
+        if (b) {
+            installAPP();
+//            有权限了
+        } else {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:"+getPackageName()));
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.setData(Uri.fromParts("package", getPackageName(), null));
+            startActivityForResult(intent, 102);
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 102);
+        }
+
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.N)
     private void installNApk() {
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.REQUEST_INSTALL_PACKAGES) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.REQUEST_INSTALL_PACKAGES)) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 100);
-            } else {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivityForResult(intent, 101);
-            }
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.REQUEST_INSTALL_PACKAGES)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,Uri.parse("package:"+getPackageName()));
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.setData(Uri.fromParts("package", getPackageName(), null));
+            startActivityForResult(intent, 101);
+//            } else {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 100);
+//            }
         } else {
-            String filePath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DOWNLOADS + File.separator + "Damt.apk";
-            File file = new File(filePath);
-            if (file.exists()) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file);
-                intent.setDataAndType(uri, "application/vnd.android.package-archive");
-                startActivity(intent);
-            }
+            installAPP();
+        }
+    }
+
+    private void installAPP() {
+        String filePath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DOWNLOADS + File.separator + "Damt.apk";
+        File file = new File(filePath);
+        if (file.exists()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            Uri uri = FileProvider.getUriForFile(MainActivity.this, "com.example.kevinjing.plan.fileprovider", file);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            startActivity(intent);
+        }else {
+            Toast.makeText(this,"路径不存在",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -212,6 +240,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     installNApk();
                 }
+            case 102:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    installAPP();
+                }
                 break;
         }
     }
@@ -219,13 +251,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 101:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    installNApk();
+        Log.d("Main", "onActivityResult执行了");
+//        switch (requestCode) {
+//            case 101:
+////                int i = ContextCompat.checkSelfPermission(this, Manifest.permission.REQUEST_INSTALL_PACKAGES);
+////                Log.d("Main", i + "");
+////                if (i != PackageManager.PERMISSION_GRANTED) {
+////
+////                } else {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                    installAPP();
+//                }
+////                }
+//                break;
+//            default:
+//
+//                break;
+//        }
+        if (requestCode == 102) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                boolean b = getPackageManager().canRequestPackageInstalls();
+                if (b) {
+                    Toast.makeText(this, "可以了", Toast.LENGTH_SHORT).show();
+                    installAPP();
+                } else {
+                    Toast.makeText(this, "不可以", Toast.LENGTH_SHORT).show();
+
                 }
-                break;
+            }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("Main", "onResume执行了");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("Main", "onPause执行了");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -236,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("Main", "onDestroy执行了");
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }

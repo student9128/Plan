@@ -133,7 +133,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="circle"
-        app:layout_constraintCircle="@id/tv_tab1"
+        app:layout_constraintCircle="@id/tv_tab2"
         app:layout_constraintCircleAngle="45"
         app:layout_constraintCircleRadius="100dp" />
 

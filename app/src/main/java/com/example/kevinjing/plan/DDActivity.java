@@ -25,7 +25,7 @@ import android.widget.Toast;
  */
 public class DDActivity extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener {
     ViewGroup vgRoot;
-    private ScrollView scrollView;
+    private CustomScrollView scrollView;
     private TextView btn;
     private int sx;
     private int sy;
@@ -249,8 +249,13 @@ public class DDActivity extends AppCompatActivity implements View.OnTouchListene
                     case MotionEvent.ACTION_UP:// 手指离开屏幕对应事件
                         int lastT = scrollView.getTop();
                         int lastB = scrollView.getBottom();
-//                        Log.i("DDActivity", "lastT:=---->" + lastT);
-//                        Log.i("DDActivity", "lastB:=---->" + lastB);
+                        Log.i("DDActivity", "lastT:=---->" + lastT);
+                        Log.i("DDActivity", "lastB:=---->" + lastB);
+                        Log.i("DDActivity", "vT---->" + (vgHeight - totalHeight));
+                        Log.i("DDActivity", "VB====>" + vgHeight);
+                        Log.i("DDActivity", "LL===>" + (vgHeight - anInt));
+                        Log.i("DDActivity", "LLLLL===>" + (vgHeight - anInt + totalHeight));
+                        scrollView.layout(scrollView.getLeft(),lastT,scrollView.getRight(),lastB);
                         if (lastB < vgHeight) {
                             scrollView.layout(scrollView.getLeft(), vgHeight - totalHeight,
                                     scrollView.getRight(),
@@ -260,6 +265,7 @@ public class DDActivity extends AppCompatActivity implements View.OnTouchListene
                             scrollView.layout(scrollView.getLeft(), vgHeight - anInt, scrollView
                                     .getRight(), vgHeight - anInt + totalHeight);
                         }
+
                         break;
                 }
                 break;

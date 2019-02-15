@@ -53,6 +53,7 @@ public class ProgressBarView extends View {
     private static final int RIGHT = 0;
     private static final int INTER = 1;
     private static final int TOP = 2;
+    private static final int NONE = 3;
 
     public ProgressBarView(Context context) {
         this(context, null);
@@ -221,6 +222,8 @@ public class ProgressBarView extends View {
                 break;
             case TOP:
                 drawTopProgress(canvas, progressBarTotalWidth);
+                break;
+            case NONE:
                 break;
         }
 

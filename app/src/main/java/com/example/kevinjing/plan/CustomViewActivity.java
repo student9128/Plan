@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class CustomViewActivity extends AppCompatActivity {
         });
         tvToggle.setCheckedColor(Color.parseColor("#669B7C"));
         pvProgressView3.setTextSize(20);
-
+        pvProgressView3.setmProgress(50);
 
     }
 }
