@@ -39,6 +39,7 @@ dependencies {
 //    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android:flexbox:1.1.0'
+    implementation 'com.github.dkf962464:md:3.4.0'
 }
 repositories {
     mavenCentral()

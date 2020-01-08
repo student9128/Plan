@@ -13,7 +13,6 @@ import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -75,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnBezierTest;
     @BindView(R.id.btn_ruler_test)
     Button btnRulerTest;
+    @BindView(R.id.btn_cycle)
+    Button btnCycle;
+    @BindView(R.id.btn_word)
+    Button btnWord;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -114,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnConstraintCustomTest.setOnClickListener(this);
         btnBezierTest.setOnClickListener(this);
         btnRulerTest.setOnClickListener(this);
+        btnCycle.setOnClickListener(this);
+        btnWord.setOnClickListener(this);
     }
 
     @Override
@@ -177,6 +182,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_ruler_test:
                 startActivity(new Intent(this, RulerViewActivity.class));
                 break;
+            case R.id.btn_cycle:
+                startActivity(new Intent(this, CycleActivity.class));
+                break;
+            case R.id.btn_word:
+                startActivity(new Intent(this, WordActivity.class));
+                break;
         }
     }
 
@@ -187,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             installAPP();
 //            有权限了
         } else {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:"+getPackageName()));
+            Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + getPackageName()));
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            intent.setData(Uri.fromParts("package", getPackageName(), null));
             startActivityForResult(intent, 102);
@@ -202,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.REQUEST_INSTALL_PACKAGES) != PackageManager.PERMISSION_GRANTED) {
 //            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.REQUEST_INSTALL_PACKAGES)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,Uri.parse("package:"+getPackageName()));
+            Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + getPackageName()));
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            intent.setData(Uri.fromParts("package", getPackageName(), null));
             startActivityForResult(intent, 101);
@@ -226,8 +237,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Uri uri = FileProvider.getUriForFile(MainActivity.this, "com.example.kevinjing.plan.fileprovider", file);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
             startActivity(intent);
-        }else {
-            Toast.makeText(this,"路径不存在",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "路径不存在", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -269,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                break;
 //        }
         if (requestCode == 102) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 boolean b = getPackageManager().canRequestPackageInstalls();
                 if (b) {
                     Toast.makeText(this, "可以了", Toast.LENGTH_SHORT).show();

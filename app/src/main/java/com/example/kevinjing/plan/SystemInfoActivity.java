@@ -1,16 +1,28 @@
 package com.example.kevinjing.plan;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.kevinjing.plan.util.MacUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +53,12 @@ public class SystemInfoActivity extends AppCompatActivity implements View.OnClic
                     .SDK_INT + "\n" + "系统版本:" + Build.VERSION.RELEASE + "\n" + "软件版本：" +
                     getAppVersionName(this) + "\n" + "系统制造商：" + Build.BRAND + "\n" + "编译时间：" + Build
                     .TIME + "\n"
-                    + "设备参数：" + Build.DEVICE + "\n" + "主板：" + Build.BOARD + "\n" + "boos版本：" + Build.BOOTLOADER);
+                    + "设备参数：" + Build.DEVICE + "\n" + "主板：" + Build.BOARD + "\n" + "boos版本：" + Build.BOOTLOADER
+                    + "\n序列号：" + Build.SERIAL + "\nsystemVersion：" + Build.VERSION.RELEASE + "\nuniqueId："
+                    + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID)
+                    + "\nsystemManufacturer:" + Build.MANUFACTURER + "\nMode：" + Build.MODEL
+            +"\nImei:"+getIME());
+            JudgeSIM(this);
             Log.d("SystemInfoActivity", "os.name is " + System.getProperty("os.name"));
             Log.d("SystemInfoActivity", "os.arch is " + System.getProperty("os.arch"));
             Log.d("SystemInfoActivity", "user.home is " + System.getProperty("user.home"));
@@ -53,6 +70,11 @@ public class SystemInfoActivity extends AppCompatActivity implements View.OnClic
                     ".version"));
             Log.d("SystemInfoActivity", "java.version is " + System.getProperty("java.version"));
             Log.d("SystemInfoActivity", "java.home is " + System.getProperty("java.home"));
+            Log.d("SystemInfoActivity", "mac== " + MacUtils.getMobileMAC(this));
+            Log.d("SystemInfoActivity", "High mac== " + MacUtils.getAndroidHighVersionMac());
+            Log.d("SystemInfoActivity", "High 7  mac== " + MacUtils.getAndroidVersion7MAC());
+
+
         }
     }
 
@@ -67,4 +89,53 @@ public class SystemInfoActivity extends AppCompatActivity implements View.OnClic
         }
         return versionName;
     }
+
+    @SuppressLint("MissingPermission")
+    private String getIME() {
+        String imei = "";
+        try {
+            TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                imei = tm.getDeviceId();
+            } else {
+                Method method = tm.getClass().getMethod("getImei");
+                imei = (String) method.invoke(tm);
+            }
+        } catch (Exception e) {
+
+        }
+        return imei;
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public static void JudgeSIM(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+        //获取当前SIM卡槽数量
+        int phoneCount = tm.getPhoneCount();
+        //获取当前SIM卡数量
+        @SuppressLint("MissingPermission") int activeSubscriptionInfoCount = SubscriptionManager.from(context).getActiveSubscriptionInfoCount();
+        @SuppressLint("MissingPermission") List<SubscriptionInfo> activeSubscriptionInfoList = SubscriptionManager.from(context).getActiveSubscriptionInfoList();
+        if (activeSubscriptionInfoList == null) {
+            return;
+        }
+        for (SubscriptionInfo subInfo : activeSubscriptionInfoList) {
+            Log.d("SystemInfo", "sim卡槽位置：" + subInfo.getSimSlotIndex());
+            try {
+                Method method = tm.getClass().getMethod("getImei", int.class);
+                String imei = (String) method.invoke(tm, subInfo.getSimSlotIndex());
+                Log.d("SystemInfo", "sim卡imei：" + imei);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+        }
+        Log.d("SystemInfo", "卡槽数量：" + phoneCount);
+        Log.d("SystemInfo", "当前SIM卡数量：" + activeSubscriptionInfoCount);
+    }
+
 }
